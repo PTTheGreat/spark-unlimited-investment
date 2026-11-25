@@ -6,10 +6,22 @@
 <title>Spark Unlimited Investment</title>
 <meta name="description" content="Spark Unlimited Investment">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111113'/%3E%3Cpath transform='translate(7 4) scale(.75)' fill='%23ff5b14' d='M12 0C12.8 9 14.6 14.5 22 16C14.6 17.5 12.8 23 12 32C11.2 23 9.4 17.5 2 16C9.4 14.5 11.2 9 12 0Z'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/inter.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(assets/inter-tight.woff2) format("woff2"); }
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(assets/inter.woff2) format("woff2"); }
 </style>
+<script>
+(function () {
+  var r = document.documentElement, l = null;
+  try { l = localStorage.getItem('su-lang'); } catch (e) {}
+  if (l !== 'zh' && l !== 'en') l = (navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
+  r.setAttribute('data-lang', l); r.setAttribute('lang', l === 'zh' ? 'zh-Hans' : 'en');
+  r.classList.add('pre');
+  setTimeout(function () { if (r.classList.contains('pre')) { r.classList.remove('pre'); r.classList.add('shown'); } }, 2500);
+})();
+</script>
 <style>
 /* Layout: one centred column on ONE continuous dot grid that runs behind the whole page. The only graphic element is a grid dot igniting into a spark: a few twinkle in the hero only; below it, sparks light once as you reach them and then stay still, denser the further you read (星火 → 燎原), and the same dots form the 70 / 20 / 10 numerals. Black footer closes the page. */
 :root {
@@ -48,6 +60,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 html[data-lang="en"] [data-l="zh"], html[data-lang="zh"] [data-l="en"] { display: none !important; }
+html:not([data-lang]) [data-l="zh"] { display: none !important; }
+.pre .hero-star, .pre .hero h1, .pre #sky { opacity: 0; }
 html[data-lang="zh"] body { letter-spacing: 0.01em; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--spark); outline-offset: 3px; border-radius: 6px; }
@@ -523,16 +537,19 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
   // Entrances (GSAP): each block arrives once, nothing loops
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
+    root.classList.remove('pre');
     var ease = 'power3.out';
-    gsap.from('.hero-star', { scale: 0, rotation: -90, opacity: 0, duration: 0.9, ease: 'back.out(2)' });
-    gsap.from('h1', { y: 28, opacity: 0, duration: 0.9, delay: 0.15, ease: ease });
+    if (!root.classList.contains('shown')) {
+      gsap.from('.hero-star', { scale: 0, rotation: -90, opacity: 0, duration: 0.9, ease: 'back.out(2)' });
+      gsap.from('h1', { y: 28, opacity: 0, duration: 0.9, delay: 0.15, ease: ease });
+    }
     document.querySelectorAll('.block').forEach(function (sec) {
       gsap.from(sec.querySelectorAll('.kicker, .step, .grow, .num, .item h3, .item p, .person, .field, .send'), {
         y: 20, opacity: 0, duration: 0.8, stagger: 0.06, ease: ease,
         scrollTrigger: { trigger: sec, start: 'top 78%', once: true }
       });
     });
-  }
+  } else root.classList.remove('pre');
 })();
 </script>
 
