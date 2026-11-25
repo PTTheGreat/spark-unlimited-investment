@@ -80,7 +80,10 @@ nav a:hover { color: var(--fg); }
 
 /* Sections: hero centred, then every section is a two-column row: a narrow rail with the section name on the left, content on the right */
 .hero .wrap { text-align: center; }
-.hero { min-height: 100vh; min-height: 100svh; display: grid; align-items: center; }
+.hero { position: sticky; top: 0; z-index: 0; height: 100vh; height: 100svh; min-height: 420px; display: grid; align-items: center; overflow: hidden; }
+#sky { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.hero .wrap { position: relative; }
+.block { position: relative; z-index: 1; background: var(--bg); }
 .hero .wrap { width: 100%; padding-block: 120px 96px; }
 .hero-star { width: 36px; height: 48px; fill: var(--spark); display: block; margin: 0 auto 36px; }
 h1 {
@@ -129,7 +132,7 @@ h2 + .three { margin-top: 48px; }
 .num { font-family: var(--display); font-weight: 700; font-size: clamp(64px, 8.4vw, 120px); line-height: 1; letter-spacing: -0.04em; color: var(--fg); margin: 0 0 28px; font-variant-numeric: tabular-nums; }
 .num span { font-size: 0.32em; font-weight: 600; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
 #field { display: none; }
-.kicker svg, .avatar svg { display: none !important; }
+
 .dm .pc { position: absolute; font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1; color: var(--muted); }
 
 /* Team & contact */
@@ -204,13 +207,13 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
 
 <main id="top">
   <section class="hero">
+    <canvas id="sky" aria-hidden="true"></canvas>
     <div class="wrap">
       <svg class="hero-star" viewBox="0 0 24 32" aria-hidden="true"><use href="#spark"/></svg>
       <h1>
         <span data-l="en">Spark the unlimited</span>
         <span data-l="zh">一点星火，无限可能</span>
       </h1>
-      <p class="sub"><span data-l="en">A single spark can set the prairie alight.</span><span data-l="zh">星星之火，可以燎原。</span></p>
     </div>
   </section>
 
@@ -523,7 +526,6 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     var ease = 'power3.out';
     gsap.from('.hero-star', { scale: 0, rotation: -90, opacity: 0, duration: 0.9, ease: 'back.out(2)' });
     gsap.from('h1', { y: 28, opacity: 0, duration: 0.9, delay: 0.15, ease: ease });
-    gsap.from('.sub', { y: 16, opacity: 0, duration: 0.8, delay: 0.4, ease: ease });
     document.querySelectorAll('.block').forEach(function (sec) {
       gsap.from(sec.querySelectorAll('.kicker, .step, .grow, .num, .item h3, .item p, .person, .field, .send'), {
         y: 20, opacity: 0, duration: 0.8, stagger: 0.06, ease: ease,
@@ -531,6 +533,49 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
       });
     });
   }
+})();
+</script>
+
+<script>
+(function () {
+  var cv = document.getElementById('sky'); if (!cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d'), hero = cv.parentNode, stars = [], W = 0, H = 0, raf = 0, t0 = performance.now();
+  var P = new Path2D('M12 0C12.8 9 14.6 14.5 22 16C14.6 17.5 12.8 23 12 32C11.2 23 9.4 17.5 2 16C9.4 14.5 11.2 9 12 0Z');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function rnd(seed) { return function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
+  function layout() {
+    var r = hero.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var keep = [];
+    document.querySelectorAll('.hero h1, .hero-star, header .brand, header nav').forEach(function (el) {
+      var b = el.getBoundingClientRect(); if (!b.width) return;
+      keep.push([b.left - r.left - 36, b.top - r.top - 36, b.right - r.left + 36, b.bottom - r.top + 36]);
+    });
+    var R = rnd(11), want = Math.round(Math.max(8, Math.min(20, W * H / 60000)));
+    stars = [];
+    for (var i = 0; i < 900 && stars.length < want; i++) {
+      var x = 24 + R() * (W - 48), y = 24 + R() * (H - 48), ok = true;
+      for (var k = 0; k < keep.length; k++) if (x > keep[k][0] && x < keep[k][2] && y > keep[k][1] && y < keep[k][3]) { ok = false; break; }
+      for (var j = 0; ok && j < stars.length; j++) { var dx = stars[j].x - x, dy = stars[j].y - y; if (dx * dx + dy * dy < 110 * 110) ok = false; }
+      if (ok) stars.push({ x: x, y: y, s: 4 + R() * R() * 9, ph: R() * 6.283, per: 4200 + R() * 5200, born: 300 + R() * 1800 });
+    }
+    draw(performance.now());
+  }
+  function draw(t) {
+    var col = getComputedStyle(document.documentElement).getPropertyValue('--spark').trim() || '#ff5b14';
+    ctx.clearRect(0, 0, W, H); ctx.fillStyle = col;
+    for (var i = 0; i < stars.length; i++) {
+      var st = stars[i], a = reduce ? 0.7 : Math.max(0, Math.min(1, (t - t0 - st.born) / 900)) * (0.62 + 0.38 * Math.sin(st.ph + t / st.per * 6.283));
+      if (a <= 0) continue;
+      ctx.globalAlpha = a; ctx.save(); ctx.translate(st.x, st.y); ctx.scale(st.s / 16, st.s / 16); ctx.translate(-12, -16); ctx.fill(P); ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
+  function loop(t) { raf = 0; if (window.scrollY < H) draw(t); if (!reduce) raf = requestAnimationFrame(loop); }
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(layout, 120); });
+  var lt = document.getElementById('lang-toggle'); if (lt) lt.addEventListener('click', function () { setTimeout(layout, 60); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  layout(); if (!reduce) raf = requestAnimationFrame(loop);
 })();
 </script>
 
