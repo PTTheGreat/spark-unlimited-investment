@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spark Unlimited Investment</title>
+<meta name="description" content="Spark Unlimited Investment">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111113'/%3E%3Cpath transform='translate(7 4) scale(.75)' fill='%23ff5b14' d='M12 0C12.8 9 14.6 14.5 22 16C14.6 17.5 12.8 23 12 32C11.2 23 9.4 17.5 2 16C9.4 14.5 11.2 9 12 0Z'/%3E%3C/svg%3E">
+<style>
+@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(assets/inter-tight.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(assets/inter.woff2) format("woff2"); }
+</style>
+<style>
+/* Layout: one centred column on ONE continuous dot grid that runs behind the whole page. The only graphic element is a grid dot igniting into a spark: a few twinkle in the hero only; below it, sparks light once as you reach them and then stay still, denser the further you read (星火 → 燎原), and the same dots form the 70 / 20 / 10 numerals. Black footer closes the page. */
+:root {
+  --bg: #ffffff;
+  --fg: #111113;
+  --muted: #6e6e73;
+  --line: #e7e5e2;
+  --dot: #d9d6d2;
+  --spark: #ff5b14;
+  --chip: #f5f4f2;
+  --badge: #111113;
+  --foot-bg: #111113;
+  --foot-fg: #f5f5f7;
+  --foot-muted: #8a8a8f;
+  --display: "Inter Tight", -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --body: "Inter", -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0c0d; --fg: #f4f3f1; --muted: #9a9a9f; --line: #262628; --dot: #2c2c2f;
+    --spark: #ff6a26; --chip: #19191b; --badge: #000000; --foot-bg: #000000;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0c0d; --fg: #f4f3f1; --muted: #9a9a9f; --line: #262628; --dot: #2c2c2f;
+  --spark: #ff6a26; --chip: #19191b; --badge: #000000; --foot-bg: #000000;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 17px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+html[data-lang="en"] [data-l="zh"], html[data-lang="zh"] [data-l="en"] { display: none !important; }
+html[data-lang="zh"] body { letter-spacing: 0.01em; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--spark); outline-offset: 3px; border-radius: 6px; }
+
+#field { position: fixed; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
+header, main, footer { position: relative; z-index: 1; }
+
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+
+/* Header */
+header { position: absolute; z-index: 5; left: 0; right: 0; top: env(safe-area-inset-top, 0px); }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: -0.015em; white-space: nowrap; }
+.badge { width: 24px; height: 24px; border-radius: 6px; background: var(--badge); display: grid; place-items: center; flex: none; }
+.mark { width: 11px; height: 15px; fill: var(--spark); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.brand:hover .mark { transform: rotate(90deg); }
+nav { display: flex; align-items: center; gap: 26px; font-size: 15px; }
+nav a { text-decoration: none; color: var(--muted); transition: color .2s; }
+nav a:hover { color: var(--fg); }
+.lang {
+  font: 500 13px/1.4 var(--body); color: var(--fg); background: var(--bg);
+  border: 1px solid var(--dot); border-radius: 999px; padding: 3px 12px; cursor: pointer;
+}
+.lang:hover { border-color: var(--fg); }
+
+/* Sections: hero centred, then every section is a two-column row: a narrow rail with the section name on the left, content on the right */
+.hero .wrap { text-align: center; }
+.hero .wrap { padding-block: clamp(140px, 20vw, 240px) clamp(120px, 16vw, 200px); }
+.hero-star { width: 30px; height: 40px; fill: var(--spark); display: block; margin: 0 auto 26px; }
+h1 {
+  font-family: var(--display); font-weight: 700; margin: 0 auto;
+  font-size: clamp(44px, 8vw, 96px); line-height: 1.04; letter-spacing: -0.03em; text-wrap: balance;
+}
+html[data-lang="zh"] h1 { letter-spacing: -0.01em; line-height: 1.12; }
+.sub { margin: 24px 0 0; color: var(--muted); font-size: clamp(16px, 1.8vw, 19px); letter-spacing: 0.02em; }
+
+.block .wrap { padding-block: 0; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 3.2fr); gap: 20px 48px; align-items: start; }
+.grid { position: relative; }
+.grid::before { content: ""; position: absolute; top: 0; height: 1px; background: var(--line); left: max(24px, env(safe-area-inset-left, 0px)); right: max(24px, env(safe-area-inset-right, 0px)); }
+.grid > * { padding-block: 28px clamp(64px, 8vw, 104px); min-width: 0; }
+.kicker { font-family: var(--display); font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: var(--fg); margin: 0; display: flex; align-items: center; gap: 10px; line-height: 1.5; }
+.kicker svg { width: 10px; height: 13px; flex: none; fill: var(--spark); transform-origin: center; }
+.kicker.lit svg { animation: ignite .9s cubic-bezier(.2,.8,.2,1) 1; }
+@keyframes ignite { 0% { transform: scale(.2) rotate(-45deg); opacity: .2; } 60% { transform: scale(1.5) rotate(0deg); opacity: 1; } 100% { transform: scale(1); } }
+h2 {
+  font-family: var(--display); font-weight: 700; margin: 0;
+  font-size: clamp(32px, 4.6vw, 52px); line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance;
+}
+html[data-lang="zh"] h2 { letter-spacing: 0; line-height: 1.2; }
+.nw { display: inline-block; }
+
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 32px; }
+h2 + .three { margin-top: 48px; }
+.item { min-width: 0; }
+.item h3 { font-family: var(--display); font-size: 20px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
+.item p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.65; max-width: 21em; }
+
+.steps { margin-top: -4px; }
+.step { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 8px 40px; align-items: baseline; padding-block: 22px; border-top: 1px solid var(--line); }
+.step:first-child { border-top: 0; padding-top: 0; }
+.step:last-child { padding-bottom: 0; }
+.step h2 { font-size: clamp(30px, 3.6vw, 44px); white-space: nowrap; }
+.step p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.6; }
+@media (max-width: 760px) { .step { grid-template-columns: 1fr; } .step h2 { white-space: normal; } .step p { font-size: 16px; } }
+/* Mission: 1, 3, 9 sparks */
+.grow { display: grid; justify-content: start; align-content: end; gap: 5px; height: 50px; margin-bottom: 18px; }
+.grow svg { width: 10px; height: 13px; fill: var(--spark); display: block; }
+.grow.g3 { grid-template-columns: repeat(3, 10px); }
+.grow.g9 { grid-template-columns: repeat(3, 10px); }
+
+/* Focus: numerals made of the page's own grid dots */
+.num { font-family: var(--display); font-weight: 700; font-size: clamp(56px, 6.4vw, 84px); line-height: 1; letter-spacing: -0.04em; color: var(--fg); margin: 0 0 18px; font-variant-numeric: tabular-nums; }
+.num span { font-size: 0.32em; font-weight: 600; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
+#field { display: none; }
+.kicker svg, .avatar svg { display: none !important; }
+.dm .pc { position: absolute; font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1; color: var(--muted); }
+
+/* Team & contact */
+.small .grid > * { padding-bottom: clamp(48px, 6vw, 72px); }
+.people { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.person { min-width: 0; }
+.avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--chip); border: 1px dashed var(--line); display: grid; place-items: center; }
+.avatar svg { width: 14px; height: 19px; fill: var(--line); }
+.person h3 { font-family: var(--display); font-size: 16px; font-weight: 600; margin: 14px 0 2px; }
+.person .role { margin: 0; font-size: 13px; color: var(--muted); }
+.person .bio { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+.addr { text-decoration: none; border-bottom: 1.5px solid var(--line); transition: border-color .2s; font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.addr:hover { border-color: var(--fg); }
+
+/* Footer */
+footer { z-index: 6; background: var(--foot-bg); color: var(--foot-fg); overflow: hidden; }
+footer .wrap { padding-block: clamp(40px, 5vw, 56px) 32px; }
+.wordmark { margin: 0; font-family: var(--display); font-weight: 800; letter-spacing: -0.045em; line-height: 1.05; font-size: clamp(1.6rem, 3.4vw, 2.6rem); }
+.wordmark svg { width: .42em; height: .56em; fill: var(--spark); margin-left: .12em; }
+.legal { display: grid; gap: 6px; margin-top: 24px; font-size: 12px; line-height: 1.7; color: var(--foot-muted); max-width: 820px; }
+.legal p { margin: 0; }
+.legal b { color: var(--foot-fg); font-weight: 600; margin-right: .6em; }
+.legal .copy { margin-top: 8px; }
+
+@media (max-width: 760px) {
+  nav a { display: none; }
+  .three { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: 1fr; gap: 0; }
+  .grid > .kicker { padding-bottom: 0; }
+  .grid > .body { padding-top: 24px; }
+  .people { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kicker.lit svg { animation: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="spark" viewBox="0 0 24 32"><path d="M12 0C12.8 9 14.6 14.5 22 16C14.6 17.5 12.8 23 12 32C11.2 23 9.4 17.5 2 16C9.4 14.5 11.2 9 12 0Z"/></symbol></defs></svg>
+<canvas id="field" aria-hidden="true"></canvas>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="Spark Unlimited Investment">
+      <span class="badge"><svg class="mark" viewBox="0 0 24 32" aria-hidden="true"><use href="#spark"/></svg></span>
+      <span class="word">Spark Unlimited Investment</span>
+    </a>
+    <nav>
+      <a href="#mission"><span data-l="en">Mission</span><span data-l="zh">使命</span></a>
+      <a href="#focus"><span data-l="en">Focus</span><span data-l="zh">投资方向</span></a>
+      <a href="#team"><span data-l="en">Team</span><span data-l="zh">管理团队</span></a>
+      <a href="#contact"><span data-l="en">Contact</span><span data-l="zh">联系我们</span></a>
+      <button class="lang" id="lang-toggle" type="button"><span data-l="en">中文</span><span data-l="zh">EN</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <svg class="hero-star" viewBox="0 0 24 32" aria-hidden="true"><use href="#spark"/></svg>
+      <h1>
+        <span data-l="en">Spark the unlimited</span>
+        <span data-l="zh">一点星火，无限可能</span>
+      </h1>
+      <p class="sub"><span data-l="en">A single spark can set the prairie alight.</span><span data-l="zh">星星之火，可以燎原。</span></p>
+    </div>
+  </section>
+
+  <section class="block" id="mission">
+    <div class="wrap grid">
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Mission</span><span data-l="zh">使命</span></p>
+      <div class="body">
+      <div class="steps">
+        <div class="step">
+          <h2><span data-l="en">Find the spark</span><span data-l="zh">寻火</span></h2>
+          <p><span data-l="en">We look for frontier technology and creative people at the earliest stage.</span><span data-l="zh">在最早期，发现前沿科技和有创造力的人。</span></p>
+        </div>
+        <div class="step">
+          <h2><span data-l="en">Fuel it</span><span data-l="zh">添柴</span></h2>
+          <p><span data-l="en">We bring capital and resources, and help teams turn ideas into products.</span><span data-l="zh">投入资本与资源，陪团队把想法做成产品。</span></p>
+        </div>
+        <div class="step">
+          <h2><span data-l="en">Let it spread</span><span data-l="zh">燎原</span></h2>
+          <p><span data-l="en">We hold for the long term and give value the time it needs to grow.</span><span data-l="zh">长期持有，给价值足够的时间成长。</span></p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="focus">
+    <div class="wrap grid">
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Focus</span><span data-l="zh">投资方向</span></p>
+      <div class="body">
+      <div class="three" id="cols">
+        <div class="item">
+          <div class="num" role="img" aria-label="70%">70<span>%</span></div>
+          <h3><span data-l="en">Advanced technology</span><span data-l="zh">先进科技</span></h3>
+          <p><span data-l="en">Frontier technology that moves the edge of what is possible. The core of the portfolio.</span><span data-l="zh">推动可能性边界的前沿科技，是组合的核心。</span></p>
+        </div>
+        <div class="item">
+          <div class="num" role="img" aria-label="20%">20<span>%</span></div>
+          <h3><span data-l="en">Advanced consumer</span><span data-l="zh">先进消费</span></h3>
+          <p><span data-l="en">Products and brands that change how people live.</span><span data-l="zh">改变人们生活方式的产品与品牌。</span></p>
+        </div>
+        <div class="item">
+          <div class="num" role="img" aria-label="10%">10<span>%</span></div>
+          <h3><span data-l="en">Independent creators</span><span data-l="zh">独立创作者</span></h3>
+          <p><span data-l="en">People who build on their own terms.</span><span data-l="zh">以个人之力创造的人。</span></p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block small" id="team">
+    <div class="wrap grid">
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Team</span><span data-l="zh">管理团队</span></p>
+      <div class="body">
+      <div class="people">
+        <div class="person">
+          <div class="avatar" aria-hidden="true"><svg viewBox="0 0 24 32"><use href="#spark"/></svg></div>
+          <h3><span data-l="en">Name</span><span data-l="zh">姓名</span></h3>
+          <p class="role"><span data-l="en">Title</span><span data-l="zh">职务</span></p>
+          <p class="bio"><span data-l="en">A short bio goes here.</span><span data-l="zh">个人简介待补充。</span></p>
+        </div>
+        <div class="person">
+          <div class="avatar" aria-hidden="true"><svg viewBox="0 0 24 32"><use href="#spark"/></svg></div>
+          <h3><span data-l="en">Name</span><span data-l="zh">姓名</span></h3>
+          <p class="role"><span data-l="en">Title</span><span data-l="zh">职务</span></p>
+          <p class="bio"><span data-l="en">A short bio goes here.</span><span data-l="zh">个人简介待补充。</span></p>
+        </div>
+        <div class="person">
+          <div class="avatar" aria-hidden="true"><svg viewBox="0 0 24 32"><use href="#spark"/></svg></div>
+          <h3><span data-l="en">Name</span><span data-l="zh">姓名</span></h3>
+          <p class="role"><span data-l="en">Title</span><span data-l="zh">职务</span></p>
+          <p class="bio"><span data-l="en">A short bio goes here.</span><span data-l="zh">个人简介待补充。</span></p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block small" id="contact">
+    <div class="wrap grid">
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Contact</span><span data-l="zh">联系我们</span></p>
+      <div class="body">
+      <div class="mail">
+        <a class="addr" href="mailto:contact@example.com">contact@example.com</a>
+      </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="wordmark" aria-label="Spark Unlimited Investment">Spark Unlimited Investment<svg viewBox="0 0 24 32" aria-hidden="true"><use href="#spark"/></svg></p>
+    <div class="legal">
+      <p><b><span data-l="en">Disclaimer</span><span data-l="zh">免责声明</span></b><span data-l="en">This site only introduces Spark Unlimited Investment. Nothing here is investment advice, an offer or a solicitation, and we do not raise funds from the public through this site.</span><span data-l="zh">本网站仅用于介绍本机构的基本信息，不构成任何投资建议、要约或推介。本机构不通过本网站向不特定对象募集资金或推介任何基金产品。</span></p>
+      <p><b><span data-l="en">Fraud notice</span><span data-l="zh">防诈骗提示</span></b><span data-l="en">We never raise money, recommend financial products or charge fees through social media, apps or personal accounts. Anyone doing so in our name does not act for us.</span><span data-l="zh">本机构不会通过社交平台、App 或个人账号向公众募集资金、推荐理财产品或收取任何费用。凡以本机构名义进行此类活动的，均与本机构无关。</span></p>
+      <p class="copy">© 2026 Spark Unlimited Investment</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/gsap.min.js"></script>
+<script src="assets/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Language
+  var stored = null;
+  try { stored = localStorage.getItem('su-lang'); } catch (e) {}
+  function setLang(l) { root.setAttribute('data-lang', l); root.setAttribute('lang', l === 'zh' ? 'zh-Hans' : 'en'); }
+  setLang(stored || ((navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en'));
+  document.getElementById('lang-toggle').addEventListener('click', function () {
+    var next = root.getAttribute('data-lang') === 'zh' ? 'en' : 'zh';
+    setLang(next);
+    try { localStorage.setItem('su-lang', next); } catch (e) {}
+    requestAnimationFrame(layout);
+  });
+
+  // Chinese body copy breaks only after a comma, never mid-phrase
+  document.querySelectorAll('.item p [data-l="zh"], .step p [data-l="zh"], .legal [data-l="zh"]').forEach(function (el) {
+    if (el.closest('.legal')) return;
+    var parts = el.textContent.split('，');
+    if (parts.length < 2) return;
+    el.textContent = '';
+    parts.forEach(function (t, i) {
+      var s = document.createElement('span'); s.className = 'nw';
+      s.textContent = t + (i < parts.length - 1 ? '，' : ''); el.appendChild(s);
+    });
+  });
+
+  // Section markers ignite once
+  if (!reduce && 'IntersectionObserver' in window) {
+    var kio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('lit'); kio.unobserve(e.target); } });
+    }, { threshold: 1 });
+    document.querySelectorAll('.kicker').forEach(function (k) { kio.observe(k); });
+  }
+
+  // ---- The field: one dot grid behind the whole page ----
+  var SHOW_GRID = false;   // the background dot grid is off; sparks and numerals still sit on its 22px pitch
+  var G = 18, SPARK = new Path2D('M12 0C12.8 9 14.6 14.5 22 16C14.6 17.5 12.8 23 12 32C11.2 23 9.4 17.5 2 16C9.4 14.5 11.2 9 12 0Z');
+  var cv = document.getElementById('field'), ctx = cv.getContext('2d');
+  var bg = document.createElement('canvas'), bx = bg.getContext('2d');
+  var heroB = 0, started = false, W = 0, H = 0, dpr = 1, col = {}, rects = [], lit = [], cells = [], statics = [];
+  var FONT = {
+    '0': ['01110', '10001', '10001', '10001', '10001', '10001', '01110'],
+    '1': ['00100', '01100', '00100', '00100', '00100', '00100', '01110'],
+    '2': ['01110', '10001', '00001', '00010', '00100', '01000', '11111'],
+    '7': ['11111', '00001', '00010', '00100', '01000', '01000', '01000']
+  };
+  function tok(n) { return getComputedStyle(root).getPropertyValue(n).trim(); }
+  function readColors() {
+    var c = { dot: tok('--dot'), spark: tok('--spark'), fg: tok('--fg'), bg: tok('--bg') };
+    var changed = c.dot !== col.dot || c.bg !== col.bg; col = c; return changed;
+  }
+  function paintGrid() {
+    bg.width = W * dpr; bg.height = (H + G) * dpr; bx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    bx.clearRect(0, 0, W, H + G); bx.fillStyle = col.dot;
+    if (!SHOW_GRID) return;
+    for (var y = G / 2; y < H + G; y += G) for (var x = G / 2; x < W; x += G) { bx.beginPath(); bx.arc(x, y, 1.1, 0, 6.283); bx.fill(); }
+  }
+  function snap(v) { return Math.round((v - G / 2) / G); }
+  function inRect(x, y) {
+    for (var i = 0; i < rects.length; i++) { var r = rects[i]; if (x > r[0] && x < r[2] && y > r[1] && y < r[3]) return true; }
+    return false;
+  }
+  function rnd(seed) { var s = seed; return function () { s = (s * 16807) % 2147483647; return s / 2147483647; }; }
+  function layout() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    readColors(); paintGrid();
+    var sy = window.scrollY;
+    // keep sparks off the text
+    rects = [];
+    document.querySelectorAll('.dm').forEach(function (el) { el.style.height = (6 * dmG(el) + 34) + 'px'; });
+    document.querySelectorAll('h1,h2,h3,p,.dm,.avatar,.addr,.brand,nav,.hero-star,.grow').forEach(function (el) {
+      var r = el.getBoundingClientRect(); if (r.width < 2) return;
+      rects.push([r.left - 14, r.top + sy - 30, r.right + 14, r.bottom + sy + 16]);
+    });
+    // numerals on the page grid
+    var old = cells; cells = [];
+    document.querySelectorAll('.dm').forEach(function (el, gi) {
+      var r = el.getBoundingClientRect(), n = el.getAttribute('data-n');
+      // flush with the text below: the first lit column sits on the column's left edge
+      var minC = 5; FONT[n[0]].forEach(function (row) { minC = Math.min(minC, row.indexOf('1') < 0 ? 5 : row.indexOf('1')); });
+      var g = dmG(el), x0 = r.left + 4, y0 = r.top + sy + 10;
+      for (var d = 0; d < 2; d++) FONT[n[d]].forEach(function (row, ri) {
+        for (var ci = 0; ci < 5; ci++) if (row[ci] === '1')
+          cells.push({ x: x0 + (d * 6 + ci - minC) * g, y: y0 + ri * g, s: g / G, g: gi, lag: gi * 260 + Math.random() * 900 });
+      });
+      var pc = el.querySelector('.pc');
+      pc.style.left = (4 + (10 - minC) * g + 4 + 8 * g / G) + 'px';
+      pc.style.top = (10 + 6 * g - 13) + 'px';
+    });
+    // static field for reduced motion: denser towards the end of the page
+    var R = rnd(7), docH = footTop();
+    heroB = document.querySelector('.hero').getBoundingClientRect().bottom + sy;
+    statics = [];
+    var want = Math.round(22 * Math.max(0.45, Math.min(1.3, W / 1280)));
+    for (var i = 0; i < 600 && statics.length < want; i++) {
+      var y = G / 2 + snap(heroB + (docH - heroB) * Math.pow(R(), 0.6)) * G, x = G / 2 + Math.floor(R() * (W / G)) * G;
+      if (!inRect(x, y)) statics.push({ x: x, y: y, R: 3.5 + R() * 3.5, on: y < sy + H * 0.9 && started ? -1e6 : null, lag: R() * 500 });
+    }
+    started = true;
+    if (reduce) draw(0);
+  }
+  function dmG(el) { return Math.max(9, Math.min(G, Math.floor((el.getBoundingClientRect().width - 34) / 10))); }
+  function footTop() { return document.querySelector('footer').getBoundingClientRect().top + window.scrollY; }
+  function star(x, y, R, rot) {
+    ctx.save(); ctx.translate(x, y); if (rot) ctx.rotate(rot); ctx.scale(R / 16, R / 16); ctx.translate(-12, -16); ctx.fill(SPARK); ctx.restore();
+  }
+  var numStart = 0;
+  function draw(t) {
+    var sy = window.scrollY;
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(bg, 0, 0, bg.width, bg.height, 0, -(sy % G), W, H + G);
+    // numerals
+    for (var i = 0; i < cells.length; i++) {
+      var c = cells[i], y = c.y - sy; if (y < -G || y > H + G) continue;
+      var k = reduce ? 1 : numStart ? Math.max(0, Math.min(1, (t - numStart - c.lag) / 700)) : 0;
+      if (k <= 0) continue;
+      ctx.fillStyle = col.bg; ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(c.x, y, 2.2 * c.s, 0, 6.283); ctx.fill();
+      var hot = k < 1;
+      ctx.fillStyle = hot ? col.spark : col.fg;
+      if (hot) { ctx.globalAlpha = 0.18 * Math.sin(k * Math.PI); ctx.beginPath(); ctx.arc(c.x, y, 12 * c.s, 0, 6.283); ctx.fill(); }
+      ctx.globalAlpha = 1;
+      star(c.x, y, 7.5 * c.s * (1 - Math.pow(1 - k, 3)) * (1 + 0.35 * Math.sin(k * Math.PI)), 0);
+    }
+    // free sparks
+    ctx.fillStyle = col.spark;
+    statics.forEach(function (s) {
+      var y = s.y - sy; if (y < -20 || y > H + 20) return;
+      if (s.on === null) { if (reduce) s.on = -1e6; else if (y < H * 0.88) s.on = t + s.lag; else return; }
+      var k = Math.max(0, Math.min(1, (t - s.on) / 800)); if (k <= 0) return;
+      var e = k < 1 ? (1 - Math.pow(1 - k, 3)) * (1 + 0.35 * Math.sin(k * Math.PI)) : 1;
+      ctx.fillStyle = col.bg; ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(s.x, y, 2, 0, 6.283); ctx.fill();
+      ctx.fillStyle = col.spark; ctx.globalAlpha = 0.85; star(s.x, y, s.R * e, 0);
+    });
+    if (!reduce) {
+      lit = lit.filter(function (s) { return t - s.t0 < s.d; });
+      lit.forEach(function (s) {
+        var y = s.y - sy; if (y < -20 || y > H + 20) return;
+        var p = Math.max(0, (t - s.t0) / s.d), a = Math.sin(p * Math.PI);
+        ctx.fillStyle = col.bg; ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(s.x, y, 2, 0, 6.283); ctx.fill();
+        ctx.fillStyle = col.spark;
+        ctx.globalAlpha = a * 0.14; ctx.beginPath(); ctx.arc(s.x, y, s.R * a * 1.1, 0, 6.283); ctx.fill();
+        ctx.globalAlpha = 0.3 + a * 0.7; star(s.x, y, 1.4 + s.R * a, s.rot + p * 0.5);
+      });
+    }
+    ctx.globalAlpha = 1;
+  }
+  function spawn(t) {
+    var sy = window.scrollY;
+    for (var i = 0; i < 6; i++) {
+      var x = G / 2 + Math.floor(Math.random() * (W / G)) * G, y = G / 2 + snap(Math.random() * heroB) * G;
+      if (inRect(x, y)) continue;
+      lit.push({ x: x, y: y, t0: t, d: 2400 + Math.random() * 3200, R: 5 + Math.random() * 6, rot: (Math.random() - .5) * 0.6 });
+      return;
+    }
+  }
+  var tick = 0;
+  function loop(t) {
+    if (++tick % 90 === 0 && readColors()) paintGrid();
+    if (window.scrollY < heroB && lit.length < 4 && Math.random() < 0.03) spawn(t);
+    draw(t);
+    requestAnimationFrame(loop);
+  }
+  layout();
+  window.addEventListener('resize', layout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  if ('ResizeObserver' in window) new ResizeObserver(layout).observe(document.querySelector('main'));
+  if (reduce) { window.addEventListener('scroll', function () { draw(0); }, { passive: true }); return; }
+  for (var j = 0; j < 3; j++) spawn(-Math.random() * 2000);
+  if ('IntersectionObserver' in window) {
+    var nio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (!e.isIntersecting) numStart = 0; else if (e.intersectionRatio >= 0.2 && !numStart) numStart = performance.now(); });
+    }, { threshold: [0, 0.2] });
+    nio.observe(document.getElementById('cols'));
+  } else numStart = 1;
+  requestAnimationFrame(loop);
+
+  // Entrances (GSAP): each block arrives once, nothing loops
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    var ease = 'power3.out';
+    gsap.from('.hero-star', { scale: 0, rotation: -90, opacity: 0, duration: 0.9, ease: 'back.out(2)' });
+    gsap.from('h1', { y: 28, opacity: 0, duration: 0.9, delay: 0.15, ease: ease });
+    gsap.from('.sub', { y: 16, opacity: 0, duration: 0.8, delay: 0.4, ease: ease });
+    document.querySelectorAll('.block').forEach(function (sec) {
+      gsap.from(sec.querySelectorAll('.kicker, .step, .grow, .num, .item h3, .item p, .person, .mail'), {
+        y: 20, opacity: 0, duration: 0.8, stagger: 0.06, ease: ease,
+        scrollTrigger: { trigger: sec, start: 'top 78%', once: true }
+      });
+    });
+  }
+})();
+</script>
+
+</html>
