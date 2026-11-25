@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -16,7 +16,7 @@
 (function () {
   var r = document.documentElement, l = null;
   try { l = localStorage.getItem('su-lang'); } catch (e) {}
-  if (l !== 'zh' && l !== 'en') l = (navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
+  if (l !== 'zh' && l !== 'en') l = 'en';
   r.setAttribute('data-lang', l); r.setAttribute('lang', l === 'zh' ? 'zh-Hans' : 'en');
   r.classList.add('pre');
   setTimeout(function () { if (r.classList.contains('pre')) { r.classList.remove('pre'); r.classList.add('shown'); } }, 2500);
@@ -349,7 +349,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
   var stored = null;
   try { stored = localStorage.getItem('su-lang'); } catch (e) {}
   function setLang(l) { root.setAttribute('data-lang', l); root.setAttribute('lang', l === 'zh' ? 'zh-Hans' : 'en'); }
-  setLang(stored || ((navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en'));
+  setLang(stored === 'zh' ? 'zh' : 'en');
   var cf = document.getElementById('contact-form');
   if (cf) cf.addEventListener('submit', function (e) {
     e.preventDefault();
