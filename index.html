@@ -136,9 +136,9 @@ h2 + .three { margin-top: 48px; }
 .step h2 { font-size: clamp(32px, 4vw, 54px); white-space: nowrap; }
 .step p { margin: 0; color: var(--muted); font-size: clamp(16px, 1.5vw, 19px); line-height: 1.6; }
 @media (max-width: 760px) { .step { grid-template-columns: 1fr; } .step h2 { white-space: normal; } .step p { font-size: 16px; } }
-.statement { font-size: clamp(40px, 6vw, 84px); line-height: 1.04; }
+.statement { font-size: clamp(36px, 5vw, 72px); line-height: 1.06; }
 html[data-lang="zh"] .statement { line-height: 1.15; }
-.lead { margin: 0; color: var(--muted); font-size: clamp(17px, 1.6vw, 21px); line-height: 1.7; max-width: 30em; }
+.lead { margin: 0; color: var(--muted); font-size: clamp(17px, 1.6vw, 21px); line-height: 1.75; max-width: 34em; }
 .statement + .lead { margin-top: clamp(24px, 3vw, 36px); }
 .lead.top { color: var(--fg); font-family: var(--display); font-weight: 500; margin-bottom: clamp(40px, 5vw, 64px); }
 .traits { list-style: none; margin: clamp(40px, 5vw, 64px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 48px; }
@@ -218,8 +218,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
       <span class="word">Spark Unlimited Investment</span>
     </a>
     <nav>
-      <a href="#belief"><span data-l="en">Belief</span><span data-l="zh">信念</span></a>
-      <a href="#mission"><span data-l="en">Mission</span><span data-l="zh">使命</span></a>
+      <a href="#about"><span data-l="en">About</span><span data-l="zh">关于我们</span></a>
       <a href="#focus"><span data-l="en">Focus</span><span data-l="zh">投资方向</span></a>
       <a href="#team"><span data-l="en">Team</span><span data-l="zh">管理团队</span></a>
       <a href="#contact"><span data-l="en">Contact</span><span data-l="zh">联系我们</span></a>
@@ -240,37 +239,32 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     </div>
   </section>
 
-  <section class="block" id="belief">
+  <section class="block" id="about">
     <div class="wrap grid">
-      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Belief</span><span data-l="zh">信念</span></p>
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">About</span><span data-l="zh">关于我们</span></p>
       <div class="body">
-        <h2 class="statement"><span data-l="en">People first. Then the plan.</span><span data-l="zh">先看人，再看事。</span></h2>
-        <p class="lead"><span data-l="en">Ideas shift. Markets shift. What carries a company through all of it is the people building it.</span><span data-l="zh">想法会变，市场会变，赛道也会变。能带着一家公司穿过这些变化的，是做事的人。</span></p>
-        <ul class="traits">
-          <li><span data-l="en">Curious to a fault.</span><span data-l="zh">好奇到近乎执拗。</span></li>
-          <li><span data-l="en">Patient with hard problems.</span><span data-l="zh">耐得住真正的难题。</span></li>
-          <li><span data-l="en">Clear about where they are going.</span><span data-l="zh">清楚自己要去哪里。</span></li>
-        </ul>
+      <h2 class="statement"><span data-l="en">Find the spark. Fuel it. Let it spread.</span><span data-l="zh">寻火，添柴，燎原。</span></h2>
+      <p class="lead"><span data-l="en">We are an early-stage investor. We look for frontier technology and creative people before most others notice them, invest capital and our own time at the very beginning, and then hold for the long term so that value has room to grow.</span><span data-l="zh">我们是一家早期投资机构。我们在多数人注意到之前，寻找前沿科技和有创造力的人；在最早的阶段投入资本，也投入我们自己的时间；然后长期持有，给价值足够的时间成长。</span></p>
       </div>
     </div>
   </section>
 
-  <section class="block" id="mission">
+  <section class="block" id="look">
     <div class="wrap grid">
-      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Mission</span><span data-l="zh">使命</span></p>
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">What we look for</span><span data-l="zh">我们看什么</span></p>
       <div class="body">
-      <div class="steps">
-        <div class="step">
-          <h2><span data-l="en">Find the spark</span><span data-l="zh">寻火</span></h2>
-          <p><span data-l="en">We look for frontier technology and creative people at the earliest stage.</span><span data-l="zh">在最早期，发现前沿科技和有创造力的人。</span></p>
+      <div class="three">
+        <div class="item">
+          <h3><span data-l="en">The founders</span><span data-l="zh">人</span></h3>
+          <p><span data-l="en">We start with the people. We look at how deeply they understand the problem, and how they make decisions when things get hard.</span><span data-l="zh">我们先看人。看创始人对问题想得有多深，看他们在困难的时候怎么做决定。</span></p>
         </div>
-        <div class="step">
-          <h2><span data-l="en">Fuel it</span><span data-l="zh">添柴</span></h2>
-          <p><span data-l="en">We bring capital and resources, and help teams turn ideas into products.</span><span data-l="zh">投入资本与资源，陪团队把想法做成产品。</span></p>
+        <div class="item">
+          <h3><span data-l="en">The problem</span><span data-l="zh">问题</span></h3>
+          <p><span data-l="en">We look for a problem that is real, large enough to matter, and ready to be solved now.</span><span data-l="zh">我们找真实存在、足够大、而且正好到了可以被解决的时候的问题。</span></p>
         </div>
-        <div class="step">
-          <h2><span data-l="en">Let it spread</span><span data-l="zh">燎原</span></h2>
-          <p><span data-l="en">We hold for the long term and give value the time it needs to grow.</span><span data-l="zh">长期持有，给价值足够的时间成长。</span></p>
+        <div class="item">
+          <h3><span data-l="en">The long view</span><span data-l="zh">十年</span></h3>
+          <p><span data-l="en">We ask what the company could be in ten years, not only what it needs for the next round.</span><span data-l="zh">我们会问这家公司十年后可能是什么样子，而不只是下一轮需要什么。</span></p>
         </div>
       </div>
       </div>
@@ -279,24 +273,46 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
 
   <section class="block" id="focus">
     <div class="wrap grid">
-      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Focus</span><span data-l="zh">投资方向</span></p>
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">What we invest in</span><span data-l="zh">我们投什么</span></p>
       <div class="body">
-      <p class="lead top"><span data-l="en">The ratio is a discipline, not a boundary.</span><span data-l="zh">比例是纪律，不是边界。</span></p>
+      <p class="lead top"><span data-l="en">We invest across three areas, in a fixed ratio.</span><span data-l="zh">我们投资三个方向，按固定比例配置。</span></p>
       <div class="three" id="cols">
         <div class="item">
           <div class="num" role="img" aria-label="70%">70<span>%</span></div>
           <h3><span data-l="en">Advanced technology</span><span data-l="zh">先进科技</span></h3>
-          <p><span data-l="en">Frontier technology that moves the edge of what is possible. The core of the portfolio.</span><span data-l="zh">推动可能性边界的前沿科技，是组合的核心。</span></p>
+          <p><span data-l="en">We put most of our capital into frontier technology that moves the edge of what is possible. It is the core of the portfolio.</span><span data-l="zh">我们把大部分资金投向推动可能性边界的前沿科技，这是组合的核心。</span></p>
         </div>
         <div class="item">
           <div class="num" role="img" aria-label="20%">20<span>%</span></div>
           <h3><span data-l="en">Advanced consumer</span><span data-l="zh">先进消费</span></h3>
-          <p><span data-l="en">Products and brands that change how people live.</span><span data-l="zh">改变人们生活方式的产品与品牌。</span></p>
+          <p><span data-l="en">We back products and brands that change the way people live.</span><span data-l="zh">我们投资改变人们生活方式的产品与品牌。</span></p>
         </div>
         <div class="item">
           <div class="num" role="img" aria-label="10%">10<span>%</span></div>
           <h3><span data-l="en">Independent creators</span><span data-l="zh">独立创作者</span></h3>
-          <p><span data-l="en">People who build on their own terms.</span><span data-l="zh">以个人之力创造的人。</span></p>
+          <p><span data-l="en">We support people who build on their own: writers, designers, independent developers.</span><span data-l="zh">我们支持以个人之力创造的人，包括作者、设计师和独立开发者。</span></p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="help">
+    <div class="wrap grid">
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">How we help</span><span data-l="zh">我们怎么帮</span></p>
+      <div class="body">
+      <div class="three">
+        <div class="item">
+          <h3><span data-l="en">People</span><span data-l="zh">找人</span></h3>
+          <p><span data-l="en">We help you find and hire the first people who will shape the company.</span><span data-l="zh">我们帮你找到并招到最早那几位决定公司走向的人。</span></p>
+        </div>
+        <div class="item">
+          <h3><span data-l="en">Customers and partners</span><span data-l="zh">找客户</span></h3>
+          <p><span data-l="en">We introduce you to potential customers, partners and people who know your industry.</span><span data-l="zh">我们把你介绍给潜在客户、合作方，以及懂你所在行业的人。</span></p>
+        </div>
+        <div class="item">
+          <h3><span data-l="en">The next round</span><span data-l="zh">下一轮</span></h3>
+          <p><span data-l="en">We help you prepare for the next round, and keep investing when it makes sense.</span><span data-l="zh">我们帮你准备下一轮融资，在合适的时候继续加注。</span></p>
         </div>
       </div>
       </div>
@@ -305,20 +321,20 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
 
   <section class="block" id="approach">
     <div class="wrap grid">
-      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">How we work</span><span data-l="zh">我们的方式</span></p>
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">How we work</span><span data-l="zh">我们怎么做事</span></p>
       <div class="body">
       <div class="three">
         <div class="item">
-          <h3><span data-l="en">We show up</span><span data-l="zh">在场</span></h3>
-          <p><span data-l="en">Capital is only the start. Hiring, first customers, the next round: we are there for all of it.</span><span data-l="zh">资本只是开始。招人、找客户、下一轮融资，我们都在。</span></p>
+          <h3><span data-l="en">Early</span><span data-l="zh">早</span></h3>
+          <p><span data-l="en">We come in at the earliest stage, sometimes before there is a company.</span><span data-l="zh">我们在最早的阶段进入，有时公司还没有成立。</span></p>
         </div>
         <div class="item">
-          <h3><span data-l="en">We stay</span><span data-l="zh">长期</span></h3>
-          <p><span data-l="en">We do not judge a company by the quarter. We are built to stay for the whole arc.</span><span data-l="zh">不按季度评判一家公司，愿意陪它走完一个完整的周期。</span></p>
+          <h3><span data-l="en">Few and deep</span><span data-l="zh">少而深</span></h3>
+          <p><span data-l="en">We back a small number of companies each year and give each one real time.</span><span data-l="zh">我们每年只投少数几家公司，给每一家足够的时间和精力。</span></p>
         </div>
         <div class="item">
-          <h3><span data-l="en">We commit</span><span data-l="zh">笃定</span></h3>
-          <p><span data-l="en">We make few bets and think hard about each one. Once we are in, we are all in.</span><span data-l="zh">出手不多，每一笔都想得很深。认定了，就全力以赴。</span></p>
+          <h3><span data-l="en">Long term</span><span data-l="zh">长期</span></h3>
+          <p><span data-l="en">We are in no hurry to exit. We are direct, we decide quickly, and we stay.</span><span data-l="zh">我们不急于退出。说话直接，决定很快，然后长期陪着。</span></p>
         </div>
       </div>
       </div>
@@ -357,7 +373,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     <div class="wrap grid">
       <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Contact</span><span data-l="zh">联系我们</span></p>
       <div class="body">
-      <p class="lead top"><span data-l="en">Building something others do not see yet? We would like to hear about it.</span><span data-l="zh">如果你在做一件别人还没看懂的事，我们想听听。</span></p>
+      <p class="lead top"><span data-l="en">If you are building something early and serious, write to us. We read every message.</span><span data-l="zh">如果你正在早期阶段认真做一件事，欢迎写信给我们。每一封来信我们都会认真读。</span></p>
       <form class="form" id="contact-form" data-to="contact@example.com" novalidate>
         <div class="row2">
           <label class="field"><span class="lab"><span data-l="en">Your name</span><span data-l="zh">你的姓名</span></span><input type="text" name="name" autocomplete="name" required></label>
@@ -425,7 +441,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     el.textContent = '';
     parts.forEach(function (t, i) {
       var s = document.createElement('span'); s.className = 'nw';
-      s.textContent = t; el.appendChild(s);
+      if (t.length > 13) { el.appendChild(document.createTextNode(t)); return; } s.textContent = t; el.appendChild(s);
     });
   });
 
