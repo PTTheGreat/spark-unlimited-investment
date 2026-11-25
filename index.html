@@ -136,6 +136,14 @@ h2 + .three { margin-top: 48px; }
 .step h2 { font-size: clamp(32px, 4vw, 54px); white-space: nowrap; }
 .step p { margin: 0; color: var(--muted); font-size: clamp(16px, 1.5vw, 19px); line-height: 1.6; }
 @media (max-width: 760px) { .step { grid-template-columns: 1fr; } .step h2 { white-space: normal; } .step p { font-size: 16px; } }
+.statement { font-size: clamp(40px, 6vw, 84px); line-height: 1.04; }
+html[data-lang="zh"] .statement { line-height: 1.15; }
+.lead { margin: 0; color: var(--muted); font-size: clamp(17px, 1.6vw, 21px); line-height: 1.7; max-width: 30em; }
+.statement + .lead { margin-top: clamp(24px, 3vw, 36px); }
+.lead.top { color: var(--fg); font-family: var(--display); font-weight: 500; margin-bottom: clamp(40px, 5vw, 64px); }
+.traits { list-style: none; margin: clamp(40px, 5vw, 64px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 48px; }
+.traits li { font-family: var(--display); font-weight: 600; font-size: clamp(18px, 1.7vw, 22px); line-height: 1.4; padding-top: 18px; border-top: 1px solid var(--line); }
+@media (max-width: 760px) { .traits { grid-template-columns: 1fr; } }
 /* Mission: 1, 3, 9 sparks */
 .grow { display: grid; justify-content: start; align-content: end; gap: 5px; height: 50px; margin-bottom: 18px; }
 .grow svg { width: 10px; height: 13px; fill: var(--spark); display: block; }
@@ -210,6 +218,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
       <span class="word">Spark Unlimited Investment</span>
     </a>
     <nav>
+      <a href="#belief"><span data-l="en">Belief</span><span data-l="zh">信念</span></a>
       <a href="#mission"><span data-l="en">Mission</span><span data-l="zh">使命</span></a>
       <a href="#focus"><span data-l="en">Focus</span><span data-l="zh">投资方向</span></a>
       <a href="#team"><span data-l="en">Team</span><span data-l="zh">管理团队</span></a>
@@ -228,6 +237,21 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
         <span data-l="en">Spark the unlimited</span>
         <span data-l="zh">一点星火，无限可能</span>
       </h1>
+    </div>
+  </section>
+
+  <section class="block" id="belief">
+    <div class="wrap grid">
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Belief</span><span data-l="zh">信念</span></p>
+      <div class="body">
+        <h2 class="statement"><span data-l="en">People first. Then the plan.</span><span data-l="zh">先看人，再看事。</span></h2>
+        <p class="lead"><span data-l="en">Ideas shift. Markets shift. What carries a company through all of it is the people building it.</span><span data-l="zh">想法会变，市场会变，赛道也会变。能带着一家公司穿过这些变化的，是做事的人。</span></p>
+        <ul class="traits">
+          <li><span data-l="en">Curious to a fault.</span><span data-l="zh">好奇到近乎执拗。</span></li>
+          <li><span data-l="en">Patient with hard problems.</span><span data-l="zh">耐得住真正的难题。</span></li>
+          <li><span data-l="en">Clear about where they are going.</span><span data-l="zh">清楚自己要去哪里。</span></li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -257,6 +281,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     <div class="wrap grid">
       <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Focus</span><span data-l="zh">投资方向</span></p>
       <div class="body">
+      <p class="lead top"><span data-l="en">The ratio is a discipline, not a boundary.</span><span data-l="zh">比例是纪律，不是边界。</span></p>
       <div class="three" id="cols">
         <div class="item">
           <div class="num" role="img" aria-label="70%">70<span>%</span></div>
@@ -272,6 +297,28 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
           <div class="num" role="img" aria-label="10%">10<span>%</span></div>
           <h3><span data-l="en">Independent creators</span><span data-l="zh">独立创作者</span></h3>
           <p><span data-l="en">People who build on their own terms.</span><span data-l="zh">以个人之力创造的人。</span></p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="approach">
+    <div class="wrap grid">
+      <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">How we work</span><span data-l="zh">我们的方式</span></p>
+      <div class="body">
+      <div class="three">
+        <div class="item">
+          <h3><span data-l="en">We show up</span><span data-l="zh">在场</span></h3>
+          <p><span data-l="en">Capital is only the start. Hiring, first customers, the next round: we are there for all of it.</span><span data-l="zh">资本只是开始。招人、找客户、下一轮融资，我们都在。</span></p>
+        </div>
+        <div class="item">
+          <h3><span data-l="en">We stay</span><span data-l="zh">长期</span></h3>
+          <p><span data-l="en">We do not judge a company by the quarter. We are built to stay for the whole arc.</span><span data-l="zh">不按季度评判一家公司，愿意陪它走完一个完整的周期。</span></p>
+        </div>
+        <div class="item">
+          <h3><span data-l="en">We commit</span><span data-l="zh">笃定</span></h3>
+          <p><span data-l="en">We make few bets and think hard about each one. Once we are in, we are all in.</span><span data-l="zh">出手不多，每一笔都想得很深。认定了，就全力以赴。</span></p>
         </div>
       </div>
       </div>
@@ -310,6 +357,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     <div class="wrap grid">
       <p class="kicker"><svg viewBox="0 0 24 32"><use href="#spark"/></svg><span data-l="en">Contact</span><span data-l="zh">联系我们</span></p>
       <div class="body">
+      <p class="lead top"><span data-l="en">Building something others do not see yet? We would like to hear about it.</span><span data-l="zh">如果你在做一件别人还没看懂的事，我们想听听。</span></p>
       <form class="form" id="contact-form" data-to="contact@example.com" novalidate>
         <div class="row2">
           <label class="field"><span class="lab"><span data-l="en">Your name</span><span data-l="zh">你的姓名</span></span><input type="text" name="name" autocomplete="name" required></label>
@@ -371,14 +419,13 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
   });
 
   // Chinese body copy breaks only after a comma, never mid-phrase
-  document.querySelectorAll('.item p [data-l="zh"], .step p [data-l="zh"], .legal [data-l="zh"]').forEach(function (el) {
-    if (el.closest('.legal')) return;
-    var parts = el.textContent.split('，');
+  document.querySelectorAll('.item p [data-l="zh"], .step p [data-l="zh"], .lead [data-l="zh"]').forEach(function (el) {
+    var parts = el.textContent.match(/[^，。]+[，。]?/g) || [];
     if (parts.length < 2) return;
     el.textContent = '';
     parts.forEach(function (t, i) {
       var s = document.createElement('span'); s.className = 'nw';
-      s.textContent = t + (i < parts.length - 1 ? '，' : ''); el.appendChild(s);
+      s.textContent = t; el.appendChild(s);
     });
   });
 
@@ -544,7 +591,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
       gsap.from('h1', { y: 28, opacity: 0, duration: 0.9, delay: 0.15, ease: ease });
     }
     document.querySelectorAll('.block').forEach(function (sec) {
-      gsap.from(sec.querySelectorAll('.kicker, .step, .grow, .num, .item h3, .item p, .person, .field, .send'), {
+      gsap.from(sec.querySelectorAll('.kicker, .statement, .lead, .traits li, .step, .grow, .num, .item h3, .item p, .person, .field, .send'), {
         y: 20, opacity: 0, duration: 0.8, stagger: 0.06, ease: ease,
         scrollTrigger: { trigger: sec, start: 'top 78%', once: true }
       });
