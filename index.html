@@ -161,10 +161,12 @@ html[data-lang="zh"] .statement { line-height: 1.15; }
 
 /* Team & contact */
 .small .grid > * { padding-bottom: clamp(96px, 12vw, 168px); }
-.people { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+.people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 64px; max-width: 860px; }
+.person .bio { max-width: 30em; }
 .person { min-width: 0; }
 .avatar { width: 88px; height: 88px; border-radius: 50%; background: var(--chip); border: 1px dashed var(--line); display: grid; place-items: center; }
 .avatar svg { width: 14px; height: 19px; fill: var(--line); }
+.avatar .ini { font-family: var(--display); font-weight: 600; font-size: 22px; letter-spacing: .02em; color: var(--muted); }
 .person h3 { font-family: var(--display); font-size: 16px; font-weight: 600; margin: 14px 0 2px; }
 .person .role { margin: 0; font-size: 13px; color: var(--muted); }
 .person .bio { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
@@ -204,7 +206,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
   .grid { grid-template-columns: 1fr; gap: 0; }
   .grid > .kicker { padding-bottom: 0; }
   .grid > .body { padding-top: 24px; }
-  .people { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .people { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   .kicker.lit svg { animation: none; }
@@ -284,22 +286,16 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
       <div class="body">
       <div class="people">
         <div class="person">
-          <div class="avatar" aria-hidden="true"><svg viewBox="0 0 24 32"><use href="#spark"/></svg></div>
-          <h3><span data-l="en">Name</span><span data-l="zh">姓名</span></h3>
-          <p class="role"><span data-l="en">Title</span><span data-l="zh">职务</span></p>
-          <p class="bio"><span data-l="en">A short bio goes here.</span><span data-l="zh">个人简介待补充。</span></p>
+          <div class="avatar" aria-hidden="true"><span class="ini">YS</span></div>
+          <h3><span data-l="en">Yangke Sun</span><span data-l="zh">Yangke Sun</span></h3>
+          <p class="role"><span data-l="en">Group CEO, Red Scarf and ECENTIME</span><span data-l="zh">Red Scarf 与 ECENTIME 集团 CEO</span></p>
+          <p class="bio"><span data-l="en">Leads the Red Scarf and ECENTIME group. His background is in recommendation systems.</span><span data-l="zh">领导 Red Scarf 与 ECENTIME 集团，专长是推荐系统。</span></p>
         </div>
         <div class="person">
-          <div class="avatar" aria-hidden="true"><svg viewBox="0 0 24 32"><use href="#spark"/></svg></div>
-          <h3><span data-l="en">Name</span><span data-l="zh">姓名</span></h3>
-          <p class="role"><span data-l="en">Title</span><span data-l="zh">职务</span></p>
-          <p class="bio"><span data-l="en">A short bio goes here.</span><span data-l="zh">个人简介待补充。</span></p>
-        </div>
-        <div class="person">
-          <div class="avatar" aria-hidden="true"><svg viewBox="0 0 24 32"><use href="#spark"/></svg></div>
-          <h3><span data-l="en">Name</span><span data-l="zh">姓名</span></h3>
-          <p class="role"><span data-l="en">Title</span><span data-l="zh">职务</span></p>
-          <p class="bio"><span data-l="en">A short bio goes here.</span><span data-l="zh">个人简介待补充。</span></p>
+          <div class="avatar" aria-hidden="true"><span class="ini">SS</span></div>
+          <h3><span data-l="en">Sophia Su</span><span data-l="zh">苏瑜（Sophia）</span></h3>
+          <p class="role"><span data-l="en">CFO, Zhidemai Technology</span><span data-l="zh">值得买科技 首席财务官</span></p>
+          <p class="bio"><span data-l="en">Chief Financial Officer of Zhidemai Technology (SMZDM). Previously a partner at KPMG Huazhen, VP of Finance at Chehaoduo Group, and CFO of Zhonghe Yunke. Independent director and audit committee chair at metaLight and Pinecone. Master&rsquo;s degree from Peking University.</span><span data-l="zh">现任值得买科技首席财务官。曾任毕马威华振会计师事务所合伙人、车好多集团财务副总裁、众合云科信息技术集团首席财务官，并任元光科技、松果出行独立董事及审计委员会主席。北京大学硕士。</span></p>
         </div>
       </div>
       </div>
