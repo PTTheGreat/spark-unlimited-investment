@@ -205,13 +205,21 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
   .grid { grid-template-columns: 1fr; gap: 0; }
   .grid > .kicker { padding-bottom: 0; }
   .grid > .body { padding-top: 24px; }
-  .people { grid-template-columns: 1fr; }
+  .people { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; max-width: none; }
+  .avatar { width: 72px; height: 72px; }
+  .person h3 { font-size: 14px; margin-top: 10px; line-height: 1.25; overflow-wrap: anywhere; }
+  .person .role { font-size: 12px; }
   /* Phone and WeChat webviews: 100vh is often taller than the visible area, so a
      sticky full-screen hero centers the title in empty space. Size the hero to its content. */
   .hero { position: relative; height: auto; min-height: 0; display: block; }
   .hero .wrap { padding-block: calc(112px + env(safe-area-inset-top, 0px)) 72px; }
   h1 { font-size: clamp(40px, 12vw, 64px); }
   html[data-lang="zh"] h1 { font-size: clamp(36px, 10vw, 56px); }
+}
+@media (max-width: 360px) {
+  .people { gap: 10px 8px; }
+  .avatar { width: 64px; height: 64px; }
+  .person h3 { font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .kicker.lit svg { animation: none; }
@@ -232,7 +240,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
       <a href="#focus"><span data-l="en">Focus</span><span data-l="zh">投资方向</span></a>
       <a href="#team"><span data-l="en">Team</span><span data-l="zh">管理团队</span></a>
       <a href="#contact"><span data-l="en">Contact</span><span data-l="zh">联系我们</span></a>
-      <button class="lang" id="lang-toggle" type="button"><span data-l="en">中文</span><span data-l="zh">EN</span></button>
+      <button class="lang" id="lang-toggle" type="button" aria-label="Switch to Chinese"><span data-l="en">CN</span><span data-l="zh">EN</span></button>
     </nav>
   </div>
 </header>
@@ -347,7 +355,12 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
   // Language
   var stored = null;
   try { stored = localStorage.getItem('su-lang'); } catch (e) {}
-  function setLang(l) { root.setAttribute('data-lang', l); root.setAttribute('lang', l === 'zh' ? 'zh-Hans' : 'en'); }
+  function setLang(l) {
+    root.setAttribute('data-lang', l);
+    root.setAttribute('lang', l === 'zh' ? 'zh-Hans' : 'en');
+    var btn = document.getElementById('lang-toggle');
+    if (btn) btn.setAttribute('aria-label', l === 'zh' ? '切换到英文' : 'Switch to Chinese');
+  }
   setLang('en');
   var cf = document.getElementById('contact-form');
   if (cf) cf.addEventListener('submit', function (e) {
