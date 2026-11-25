@@ -15,8 +15,8 @@
 <script>
 (function () {
   var r = document.documentElement, l = null;
-  try { l = localStorage.getItem('su-lang'); } catch (e) {}
-  if (l !== 'zh' && l !== 'en') l = 'en';
+  l = 'en';
+  try { localStorage.removeItem('su-lang'); } catch (e) {}
   r.setAttribute('data-lang', l); r.setAttribute('lang', l === 'zh' ? 'zh-Hans' : 'en');
   r.classList.add('pre');
   setTimeout(function () { if (r.classList.contains('pre')) { r.classList.remove('pre'); r.classList.add('shown'); } }, 2500);
@@ -343,7 +343,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
   var stored = null;
   try { stored = localStorage.getItem('su-lang'); } catch (e) {}
   function setLang(l) { root.setAttribute('data-lang', l); root.setAttribute('lang', l === 'zh' ? 'zh-Hans' : 'en'); }
-  setLang(stored === 'zh' ? 'zh' : 'en');
+  setLang('en');
   var cf = document.getElementById('contact-form');
   if (cf) cf.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -361,7 +361,6 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
   document.getElementById('lang-toggle').addEventListener('click', function () {
     var next = root.getAttribute('data-lang') === 'zh' ? 'en' : 'zh';
     setLang(next);
-    try { localStorage.setItem('su-lang', next); } catch (e) {}
     requestAnimationFrame(layout);
   });
 
