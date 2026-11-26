@@ -152,9 +152,81 @@ html[data-lang="zh"] .statement { line-height: 1.15; }
 .grow.g3 { grid-template-columns: repeat(3, 10px); }
 .grow.g9 { grid-template-columns: repeat(3, 10px); }
 
-/* Focus: numerals made of the page's own grid dots */
-.num { font-family: var(--display); font-weight: 700; font-size: clamp(64px, 8.4vw, 120px); line-height: 1; letter-spacing: -0.04em; color: var(--fg); margin: 0 0 28px; font-variant-numeric: tabular-nums; }
-.num span { font-size: 0.32em; font-weight: 600; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
+/* Focus: 70 / 20 / 10 as three lanes, each with a field of marks you can light */
+.lanes { margin-top: clamp(28px, 4vw, 52px); }
+.lane {
+  display: grid;
+  grid-template-columns: 4.6rem minmax(0, 1fr);
+  column-gap: 18px;
+  row-gap: 12px;
+  align-items: baseline;
+  padding: 30px 0 34px;
+  border-top: 1px solid var(--line);
+}
+.lane:first-child { border-top: 0; padding-top: 4px; }
+.share {
+  margin: 0; grid-column: 1; grid-row: 1;
+  font-family: var(--display); font-weight: 700; font-size: 32px; line-height: 1;
+  letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+}
+.share span { font-size: 0.48em; font-weight: 600; letter-spacing: 0; color: var(--muted); margin-left: 1px; }
+.lane h3 {
+  margin: 0; grid-column: 2; grid-row: 1;
+  font-family: var(--display); font-weight: 600; font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: -0.02em; line-height: 1.2;
+}
+html[data-lang="zh"] .lane h3 { letter-spacing: 0; }
+.lane-body { grid-column: 2; grid-row: 2; min-width: 0; }
+.blurb { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.65; max-width: 40em; }
+.orbit {
+  list-style: none; margin: 18px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px 6px; max-width: 440px;
+}
+.orbit li { min-width: 0; }
+.ember {
+  appearance: none; -webkit-appearance: none;
+  width: 100%; height: auto; margin: 0; padding: 4px 2px 2px;
+  border: 0; background: transparent; color: var(--muted);
+  font: inherit; cursor: pointer; border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.glyph-wrap {
+  position: relative; width: 44px; height: 44px;
+  display: grid; place-items: center; border-radius: 50%;
+  border: 1px solid var(--line); background: transparent;
+  transition: border-color .25s, background .25s;
+}
+.glyph { width: 26px; height: 26px; display: block; color: var(--fg); stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.glyph use { fill: currentColor; stroke: none; }
+.glint {
+  position: absolute; width: 11px; height: 11px; top: -3px; right: -3px;
+  fill: var(--spark); opacity: 0; transform: scale(.35) rotate(-40deg);
+  transition: opacity .35s, transform .45s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+}
+.ember .glyph { transition: transform .45s cubic-bezier(.2,.8,.2,1), color .2s; }
+.iname { font-size: 12px; line-height: 1.3; text-align: center; min-height: 2.6em; color: var(--muted); overflow-wrap: break-word; }
+.ember.on, .ember:focus-visible { color: var(--fg); }
+.ember.on .glyph-wrap, .ember:focus-visible .glyph-wrap { border-color: var(--spark); background: color-mix(in srgb, var(--spark) 9%, transparent); }
+.ember.on .glyph, .ember:focus-visible .glyph { color: var(--spark); transform: rotate(12deg) scale(1.06); }
+.ember.on .glint, .ember:focus-visible .glint { opacity: 1; transform: scale(1) rotate(0deg); }
+.ember.on .iname, .ember:focus-visible .iname { color: var(--fg); }
+.caption { margin: 0; max-width: 36em; font-size: 14.5px; line-height: 1.45; color: var(--fg); }
+.caption:not(:empty) { margin-top: 12px; min-height: 1.45em; }
+@media (max-width: 760px) {
+  .lane { grid-template-columns: auto minmax(0, 1fr); column-gap: 12px; padding: 26px 0 28px; }
+  .share { font-size: 26px; }
+  .lane-body { grid-column: 1 / -1; }
+  .orbit { max-width: none; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); }
+  .iname { font-size: 11.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ember .glyph, .glint, .glyph-wrap { transition: none; }
+  .ember.on .glyph, .ember:focus-visible .glyph { transform: none; }
+  .ember.on .glint, .ember:focus-visible .glint { transform: none; }
+}
 #field { display: none; }
 
 .dm .pc { position: absolute; font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1; color: var(--muted); }
@@ -271,23 +343,99 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     <div class="wrap grid">
       <p class="kicker"><svg viewBox="0 0 32 32"><use href="#spark"/></svg><span data-l="en">What we invest in</span><span data-l="zh">我们投什么</span></p>
       <div class="body">
-      <p class="lead top"><span data-l="en">We invest across three areas, in a fixed ratio.</span><span data-l="zh">我们投资三个方向，按固定比例配置。</span></p>
-      <div class="three" id="cols">
-        <div class="item">
-          <div class="num" role="img" aria-label="70%">70<span>%</span></div>
+      <h2 class="statement"><span data-l="en">What we stay with</span><span data-l="zh">我们陪下去的事</span></h2>
+      <p class="lead"><span data-l="en">Seventy percent, twenty, ten. The split is the plain part. Under it are the things, and the people, we are willing to keep company with.</span><span data-l="zh">七成、两成、一成。比例是清楚的。比例底下，是我们愿意长久相伴的事，和人。</span></p>
+      <div class="lanes" id="cols">
+        <article class="lane">
+          <p class="share">70<span>%</span></p>
           <h3><span data-l="en">Advanced technology</span><span data-l="zh">先进科技</span></h3>
-          <p><span data-l="en">We put most of our capital into frontier technology that moves the edge of what is possible. It is the core of the portfolio.</span><span data-l="zh">我们把大部分资金投向推动可能性边界的前沿科技，这是组合的核心。</span></p>
-        </div>
-        <div class="item">
-          <div class="num" role="img" aria-label="20%">20<span>%</span></div>
+          <div class="lane-body">
+            <p class="blurb"><span data-l="en">Most of the capital sits here, while the work is still early. Models. The chain that has to grow around them. Industries that do not have a name yet. We arrive before it is obvious, and we stay through the quiet years.</span><span data-l="zh">大部分资金在这里，在事情还早的时候。模型。必须长在它周围的产业链。还没有名字的产业。我们到得早，也在安静的年头里留下。</span></p>
+            <ul class="orbit">
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 12h13M7 16.5h13M7 21h9"/><use href="#spark" x="20" y="15" width="10" height="10"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Models</span><span data-l="zh">模型</span></span>
+                <span class="iline" hidden><span data-l="en">Still being built, not yet a platform.</span><span data-l="zh">还在被做出来，尚未变成平台。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><circle cx="6.5" cy="16" r="2.6"/><circle cx="16" cy="16" r="2.6"/><circle cx="25.5" cy="16" r="2.6"/><path d="M9.1 16h4.3M18.6 16h4.3"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">The chain</span><span data-l="zh">产业链</span></span>
+                <span class="iline" hidden><span data-l="en">Chips, data, and tools around a model.</span><span data-l="zh">芯片、数据和工具，长在模型旁边。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><circle cx="7" cy="23" r="2.3"/><path d="M7 23l8.5-12.5 9 4.2"/><circle cx="15.5" cy="10.5" r="1.5" fill="currentColor" stroke="none"/><path d="M22.6 13.4l2.4 1.1.2 3.4"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Robotics</span><span data-l="zh">机器人</span></span>
+                <span class="iline" hidden><span data-l="en">A machine that leaves the screen and works.</span><span data-l="zh">离开屏幕、去干活的机器。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 25.5h22"/><use href="#spark" x="9" y="3" width="14" height="14"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Future industries</span><span data-l="zh">未来产业</span></span>
+                <span class="iline" hidden><span data-l="en">No category for it yet.</span><span data-l="zh">还没有门类。</span></span>
+              </button></li>
+            </ul>
+            <p class="caption" aria-live="polite"></p>
+          </div>
+        </article>
+        <article class="lane">
+          <p class="share">20<span>%</span></p>
           <h3><span data-l="en">Advanced consumer</span><span data-l="zh">先进消费</span></h3>
-          <p><span data-l="en">We back products and brands that change the way people live.</span><span data-l="zh">我们投资改变人们生活方式的产品与品牌。</span></p>
-        </div>
-        <div class="item">
-          <div class="num" role="img" aria-label="10%">10<span>%</span></div>
+          <div class="lane-body">
+            <p class="blurb"><span data-l="en">A smaller share is for the way a day is lived. A brand a person comes back to. A tool that belongs in the hand. A workshop that will not pass a careless part. We are backing that care.</span><span data-l="zh">较小的一份，给一天的过法。一个会让人回头的品牌。一件真正属于手的工具。一间工场，不肯放过毛糙的零件。我们投的是这种在意。</span></p>
+            <ul class="orbit">
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9"/><use href="#spark" x="11" y="11" width="10" height="10"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Brands</span><span data-l="zh">高端品牌</span></span>
+                <span class="iline" hidden><span data-l="en">A name someone chooses twice.</span><span data-l="zh">会被人再选一次的名字。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 13.5l8-4 8 4-8 4z"/><path d="M8 13.5v7.5l8 4 8-4v-7.5"/><path d="M16 17.5v7.5"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Hardware</span><span data-l="zh">智能硬件</span></span>
+                <span class="iline" hidden><span data-l="en">An object you live with.</span><span data-l="zh">陪在生活里的器物。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 25V8h17"/><path d="M8 12.5h2.6M8 17h2M8 21.5h2.6"/><path d="M12.5 25v-2.6M17 25v-2M21.5 25v-2.6"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Manufacturing</span><span data-l="zh">高端制造</span></span>
+                <span class="iline" hidden><span data-l="en">The hidden part, made properly.</span><span data-l="zh">看不见的地方，也做对。</span></span>
+              </button></li>
+            </ul>
+            <p class="caption" aria-live="polite"></p>
+          </div>
+        </article>
+        <article class="lane">
+          <p class="share">10<span>%</span></p>
           <h3><span data-l="en">Independent creators</span><span data-l="zh">独立创作者</span></h3>
-          <p><span data-l="en">We support people who build on their own: writers, designers, independent developers.</span><span data-l="zh">我们支持以个人之力创造的人，包括作者、设计师和独立开发者。</span></p>
-        </div>
+          <div class="lane-body">
+            <p class="blurb"><span data-l="en">The rest is for people who sign the work themselves. An artist, a musician, a craftsperson, a game studio, a watchmaker. The work may be small. We still sit with it for a long time.</span><span data-l="zh">剩下的一份，留给在作品上签名的人。艺术家，音乐人，手艺人，游戏工作室，制表师。作品可以很小。我们仍然长久地坐在旁边。</span></p>
+            <ul class="orbit">
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="7.5" width="20" height="15" rx="1.5"/><path d="M10 18.5c2.4-4.6 4.8-4.6 6.8-1.4 1.6 2.6 3.2 2.8 5.4-4"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Artists</span><span data-l="zh">独立艺术家</span></span>
+                <span class="iline" hidden><span data-l="en">One person’s work, signed.</span><span data-l="zh">一个人的作品，署了名。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 23.5V9.5l11 2.2v11.6"/><circle cx="10.2" cy="23.5" r="2.7"/><circle cx="21.2" cy="22.6" r="2.7"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Musicians</span><span data-l="zh">独立音乐人</span></span>
+                <span class="iline" hidden><span data-l="en">A song someone will stand behind.</span><span data-l="zh">一个人愿意为之站住的歌。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><path d="M21 7L11 24"/><circle cx="22.2" cy="6.4" r="1.5" fill="currentColor" stroke="none"/><path d="M8 18.5c4.6 2.4 7.2.4 10-3.2"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Craft</span><span data-l="zh">独立手艺人</span></span>
+                <span class="iline" hidden><span data-l="en">Hands, repetition, a thing you can hold.</span><span data-l="zh">手、重复，一件拿得住的东西。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="12" width="22" height="10" rx="5"/><circle cx="12" cy="17" r="1.15" fill="currentColor" stroke="none"/><path d="M20 15.4v3.2M18.4 17h3.2"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Game studios</span><span data-l="zh">独立游戏工作室</span></span>
+                <span class="iline" hidden><span data-l="en">A small room, and a world of their own.</span><span data-l="zh">一间小屋，一个他们的世界。</span></span>
+              </button></li>
+              <li><button type="button" class="ember" aria-pressed="false">
+                <span class="glyph-wrap"><svg class="glyph" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16.5" r="6.6"/><path d="M16 16.5V12.2M16 16.5l2.8 1.8"/><path d="M13.4 7.2h5.2M13.4 25.8h5.2"/></svg><svg class="glint" viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg></span>
+                <span class="iname"><span data-l="en">Watchmakers</span><span data-l="zh">独立制表师</span></span>
+                <span class="iline" hidden><span data-l="en">Time, kept by someone who knows each wheel.</span><span data-l="zh">时间，由认得每一枚齿轮的人守着。</span></span>
+              </button></li>
+            </ul>
+            <p class="caption" aria-live="polite"></p>
+          </div>
+        </article>
       </div>
       </div>
     </div>
@@ -382,8 +530,54 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     requestAnimationFrame(layout);
   });
 
+  // Marks: hover on a fine pointer, tap on a coarse one, focus from the keyboard.
+  (function wireMarks() {
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    document.querySelectorAll('.lane').forEach(function (lane) {
+      var marks = [].slice.call(lane.querySelectorAll('.ember'));
+      var cap = lane.querySelector('.caption');
+      function show(btn) {
+        marks.forEach(function (m) {
+          var on = m === btn;
+          m.classList.toggle('on', on);
+          m.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (!cap) return;
+        var src = btn && btn.querySelector('.iline');
+        cap.innerHTML = src ? src.innerHTML : '';
+      }
+      marks.forEach(function (btn) {
+        var fromPointer = false, fromKey = false, lastPointer = '';
+        btn.addEventListener('pointerdown', function (e) { fromPointer = true; lastPointer = e.pointerType || ''; });
+        btn.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') fromKey = true; });
+        btn.addEventListener('pointerenter', function (e) {
+          if (e.pointerType === 'touch') return;
+          if (e.pointerType === 'mouse' || e.pointerType === 'pen' || fine.matches) show(btn);
+        });
+        btn.addEventListener('focus', function () {
+          if (fromPointer && !fine.matches && lastPointer === 'touch') { fromPointer = false; return; }
+          show(btn);
+        });
+        btn.addEventListener('click', function () {
+          if (fromKey || fine.matches || lastPointer === 'mouse' || lastPointer === 'pen') { fromKey = false; show(btn); return; }
+          show(btn.classList.contains('on') ? null : btn);
+        });
+      });
+      lane.addEventListener('pointerleave', function (e) {
+        if (e.pointerType === 'touch') return;
+        if (!fine.matches && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+        if (!lane.querySelector('.ember:focus')) show(null);
+      });
+      lane.addEventListener('focusout', function (e) {
+        if (lane.contains(e.relatedTarget)) return;
+        if (fine.matches && lane.matches(':hover')) return;
+        show(null);
+      });
+    });
+  })();
+
   // Chinese body copy breaks only after a comma, never mid-phrase
-  document.querySelectorAll('.item p [data-l="zh"], .step p [data-l="zh"], .lead [data-l="zh"]').forEach(function (el) {
+  document.querySelectorAll('.blurb [data-l="zh"], .item p [data-l="zh"], .step p [data-l="zh"], .lead [data-l="zh"]').forEach(function (el) {
     var parts = el.textContent.match(/[^，。]+[，。]?/g) || [];
     if (parts.length < 2) return;
     el.textContent = '';
@@ -439,7 +633,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     // keep sparks off the text
     rects = [];
     document.querySelectorAll('.dm').forEach(function (el) { el.style.height = (6 * dmG(el) + 34) + 'px'; });
-    document.querySelectorAll('h1,h2,h3,p,.dm,.avatar,.addr,.brand,nav,.hero-star,.grow').forEach(function (el) {
+    document.querySelectorAll('h1,h2,h3,p,.dm,.avatar,.addr,.brand,nav,.hero-star,.grow,.orbit').forEach(function (el) {
       var r = el.getBoundingClientRect(); if (r.width < 2) return;
       rects.push([r.left - 14, r.top + sy - 30, r.right + 14, r.bottom + sy + 16]);
     });
@@ -555,7 +749,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
       gsap.from('h1', { y: 28, opacity: 0, duration: 0.9, delay: 0.15, ease: ease });
     }
     document.querySelectorAll('.block').forEach(function (sec) {
-      gsap.from(sec.querySelectorAll('.kicker, .statement, .lead, .traits li, .step, .grow, .num, .item h3, .item p, .person, .field, .send'), {
+      gsap.from(sec.querySelectorAll('.kicker, .statement, .lead, .traits li, .step, .grow, .num, .item h3, .item p, .lane, .person, .field, .send'), {
         y: 20, opacity: 0, duration: 0.8, stagger: 0.06, ease: ease,
         scrollTrigger: { trigger: sec, start: 'top 78%', once: true }
       });
