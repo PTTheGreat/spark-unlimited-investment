@@ -243,14 +243,23 @@ html[data-lang="zh"] .lane h3 { letter-spacing: 0; }
 .person .bio { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
 .addr { text-decoration: none; border-bottom: 1.5px solid var(--line); transition: border-color .2s; font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -0.01em; overflow-wrap: anywhere; }
 .addr:hover { border-color: var(--fg); }
-.form { display: grid; gap: 22px; max-width: 640px; }
+.contact-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; border: 0; padding: 0; margin: 0 0 32px; min-width: 0; }
+.contact-choices legend { padding: 0; margin-bottom: 14px; font-size: 15px; font-weight: 500; }
+.contact-choice { display: grid; grid-template-columns: 18px 1fr; align-content: start; align-items: baseline; gap: 3px 12px; padding: 17px 18px; border: 1px solid var(--dot); border-radius: 12px; cursor: pointer; }
+.contact-choice:has(input:checked) { border-color: var(--fg); background: var(--chip); }
+.contact-choice input { width: 16px; height: 16px; margin: 0; align-self: center; accent-color: var(--fg); }
+.choice-title { font: 600 20px/1.35 var(--display); }
+.choice-detail { grid-column: 2; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.contact-body { max-width: 760px; }
+#contact [hidden] { display: none; }
+.form { display: grid; gap: 22px; }
 .row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 28px; }
 .field { display: grid; gap: 6px; min-width: 0; }
 .lab { font-size: 13px; color: var(--muted); }
 .field input, .field textarea { font: inherit; font-size: 16px; line-height: 1.5; color: var(--fg); background: transparent; border: 0; border-bottom: 1px solid var(--dot); border-radius: 0; padding: 6px 0 8px; width: 100%; outline: none; resize: vertical; transition: border-color .2s; -webkit-appearance: none; appearance: none; }
 .field textarea { min-height: 96px; }
 .field input:focus, .field textarea:focus { border-color: var(--fg); }
-.field.bad input, .field.bad textarea { border-color: var(--spark); }
+.field-hint { color: var(--muted); font-size: 14px; line-height: 1.5; }
 .send { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 .btn { font: inherit; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--bg); background: var(--fg); border: 0; border-radius: 999px; padding: 11px 22px; cursor: pointer; transition: opacity .2s; }
 .btn:hover { opacity: .82; }
@@ -273,6 +282,17 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
 
 @media (max-width: 760px) {
   nav a { display: none; }
+  nav { gap: 12px; align-items: center; }
+  nav a[href="#contact"] { display: inline-flex; align-items: center; min-height: 44px; }
+  nav .lang { min-height: 44px; }
+  #contact .kicker { padding-bottom: 0; }
+  .contact-choices { grid-template-columns: 1fr; gap: 8px; margin-bottom: 24px; }
+  .contact-choice { padding: 12px 14px; }
+  .choice-title { font-size: 18px; }
+  #contact .field input { min-height: 44px; }
+  #contact .send { align-items: start; flex-direction: column; }
+  #contact .btn { min-height: 44px; width: 100%; }
+  #contact .note { flex: auto; }
   .three { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr; gap: 0; }
   .grid > .kicker { padding-bottom: 0; }
@@ -463,20 +483,49 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
 
   <section class="block small" id="contact">
     <div class="wrap grid">
-      <p class="kicker"><svg viewBox="0 0 32 32"><use href="#spark"/></svg><span data-l="en">Contact</span><span data-l="zh">联系我们</span></p>
-      <div class="body">
-      <p class="lead top"><span data-l="en">If you are building something early and serious, write to us. We read every message.</span><span data-l="zh">如果你正在早期阶段认真做一件事，欢迎写信给我们。每一封来信我们都会认真读。</span></p>
-      <form class="form" id="contact-form" data-to="contact@example.com" novalidate>
-        <div class="row2">
-          <label class="field"><span class="lab"><span data-l="en">Your name</span><span data-l="zh">你的姓名</span></span><input type="text" name="name" autocomplete="name" required></label>
-          <label class="field"><span class="lab"><span data-l="en">Company and role</span><span data-l="zh">所在机构与身份</span></span><input type="text" name="org" autocomplete="organization" required></label>
-        </div>
-        <label class="field"><span class="lab"><span data-l="en">What would you like to talk about?</span><span data-l="zh">想和我们聊什么</span></span><textarea name="msg" rows="4" required></textarea></label>
-        <div class="send">
-          <button class="btn" type="submit"><span data-l="en">Send by email</span><span data-l="zh">用邮件发送</span></button>
-          <span class="note" id="form-note" role="status"><span data-l="en">Opens your mail app with this filled in. Or write to </span><span data-l="zh">点击后会打开你的邮件应用并填好内容。也可以直接写信到 </span><a class="addr" href="mailto:contact@example.com">contact@example.com</a></span>
-        </div>
-      </form>
+      <h2 class="kicker"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#spark"/></svg><span data-l="en">Contact</span><span data-l="zh">联系我们</span></h2>
+      <div class="body contact-body">
+        <fieldset class="contact-choices">
+          <legend><span data-l="en">What brings you here?</span><span data-l="zh">你想聊什么？</span></legend>
+          <label class="contact-choice">
+            <input type="radio" name="contact-kind" value="project" aria-controls="project-form" checked>
+            <span class="choice-title"><span data-l="en">I have a project</span><span data-l="zh">我有项目</span></span>
+            <span class="choice-detail"><span data-l="en">Tell us what you’re building and where you could use support.</span><span data-l="zh">介绍你的项目，聊聊需要什么支持。</span></span>
+          </label>
+          <label class="contact-choice">
+            <input type="radio" name="contact-kind" value="investor" aria-controls="investor-form">
+            <span class="choice-title"><span data-l="en">I’d like to invest</span><span data-l="zh">我想出资</span></span>
+            <span class="choice-detail"><span data-l="en">Explore investing with us, personally or through your institution.</span><span data-l="zh">以个人或机构身份，洽谈出资合作。</span></span>
+          </label>
+        </fieldset>
+        <form class="form" id="project-form" action="mailto:projects@example.com" method="post" enctype="text/plain" data-subject-en="Project introduction" data-subject-zh="项目介绍">
+          <div class="row2">
+            <label class="field"><span class="lab"><span data-l="en">Your name</span><span data-l="zh">你的姓名</span></span><input name="name" autocomplete="section-project name" required></label>
+            <label class="field"><span class="lab"><span data-l="en">Project name (optional)</span><span data-l="zh">项目名称（选填）</span></span><input name="org"></label>
+          </div>
+          <div class="field"><label class="lab" for="project-message"><span data-l="en">About your project</span><span data-l="zh">项目简介</span></label>
+            <span class="field-hint" id="project-hint"><span data-l="en">Who are you building for, and what have you tried so far?</span><span data-l="zh">你在为谁解决什么问题？目前进展如何？</span></span>
+            <textarea id="project-message" name="msg" rows="3" aria-describedby="project-hint" required></textarea>
+          </div>
+          <div class="send">
+            <button class="btn" type="submit"><span data-l="en">Draft project email</span><span data-l="zh">起草项目邮件</span></button>
+            <span class="note"><span data-l="en">Opens your mail app. You can also write directly to </span><span data-l="zh">将打开邮件应用。也可直接写信至 </span><a class="addr" href="mailto:projects@example.com">projects@example.com</a></span>
+          </div>
+        </form>
+        <form class="form" id="investor-form" action="mailto:investors@example.com" method="post" enctype="text/plain" data-subject-en="Investment partnership inquiry" data-subject-zh="出资合作咨询" hidden>
+          <div class="row2">
+            <label class="field"><span class="lab"><span data-l="en">Your name</span><span data-l="zh">你的姓名</span></span><input name="name" autocomplete="section-investor name" required></label>
+            <label class="field"><span class="lab"><span data-l="en">Institution (optional)</span><span data-l="zh">机构名称（选填）</span></span><input name="org" autocomplete="section-investor organization"></label>
+          </div>
+          <div class="field"><label class="lab" for="investor-message"><span data-l="en">Your investment interests</span><span data-l="zh">合作意向</span></label>
+            <span class="field-hint" id="investor-hint"><span data-l="en">Which sectors interest you? How would you like to invest with us?</span><span data-l="zh">你关注哪些领域？希望以什么方式参与投资？</span></span>
+            <textarea id="investor-message" name="msg" rows="3" aria-describedby="investor-hint" required></textarea>
+          </div>
+          <div class="send">
+            <button class="btn" type="submit"><span data-l="en">Draft investment inquiry</span><span data-l="zh">起草合作邮件</span></button>
+            <span class="note"><span data-l="en">Opens your mail app. You can also write directly to </span><span data-l="zh">将打开邮件应用。也可直接写信至 </span><a class="addr" href="mailto:investors@example.com">investors@example.com</a></span>
+          </div>
+        </form>
       </div>
     </div>
   </section>
@@ -510,19 +559,28 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
     if (btn) btn.setAttribute('aria-label', l === 'zh' ? '切换到英文' : 'Switch to Chinese');
   }
   setLang('en');
-  var cf = document.getElementById('contact-form');
-  if (cf) cf.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var zh = root.getAttribute('data-lang') === 'zh', ok = true, v = {};
-    ['name', 'org', 'msg'].forEach(function (n) {
-      var el = cf.elements[n]; v[n] = el.value.trim();
-      el.parentNode.classList.toggle('bad', !v[n]);
-      if (!v[n] && ok) { ok = false; el.focus(); }
+  var choices = document.querySelector('.contact-choices');
+  var contactForms = document.querySelectorAll('#contact form');
+  function showContactForm() {
+    var selectedId = choices.querySelector('input:checked').getAttribute('aria-controls');
+    contactForms.forEach(function (form) { form.hidden = form.id !== selectedId; });
+  }
+  choices.addEventListener('change', showContactForm);
+  window.addEventListener('pageshow', showContactForm);
+  showContactForm();
+  contactForms.forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var name = form.elements.namedItem('name'), message = form.elements.namedItem('msg');
+      name.value = name.value.trim();
+      message.value = message.value.trim();
+      if (!form.reportValidity()) return;
+      var org = form.elements.namedItem('org').value.trim();
+      var topic = form.getAttribute('data-subject-' + root.getAttribute('data-lang'));
+      var subject = topic + ' · ' + (org || name.value);
+      var body = message.value.replace(/\n/g, '\r\n') + '\r\n\r\n' + name.value + (org ? '\r\n' + org : '');
+      window.location.href = form.getAttribute('action') + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     });
-    if (!ok) return;
-    var subject = (zh ? '来自 ' : 'From ') + v.name + (zh ? '（' + v.org + '）' : ' (' + v.org + ')');
-    var body = (zh ? '姓名：' : 'Name: ') + v.name + '\n' + (zh ? '机构与身份：' : 'Company and role: ') + v.org + '\n\n' + v.msg + '\n';
-    window.location.href = 'mailto:' + cf.getAttribute('data-to') + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   });
   document.getElementById('lang-toggle').addEventListener('click', function () {
     var next = root.getAttribute('data-lang') === 'zh' ? 'en' : 'zh';
@@ -749,7 +807,7 @@ footer .wrap { padding-block: clamp(56px, 7vw, 96px) 40px; }
       gsap.from('h1', { y: 28, opacity: 0, duration: 0.9, delay: 0.15, ease: ease });
     }
     document.querySelectorAll('.block').forEach(function (sec) {
-      gsap.from(sec.querySelectorAll('.kicker, .statement, .lead, .traits li, .step, .grow, .num, .item h3, .item p, .lane, .person, .field, .send'), {
+      gsap.from(sec.querySelectorAll('.kicker, .statement, .lead, .traits li, .step, .grow, .num, .item h3, .item p, .lane, .person, .contact-choices, .field, .send'), {
         y: 20, opacity: 0, duration: 0.8, stagger: 0.06, ease: ease,
         scrollTrigger: { trigger: sec, start: 'top 78%', once: true }
       });
